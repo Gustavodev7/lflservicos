@@ -586,6 +586,13 @@ button {
   margin-top: 26px;
 }
 
+.split-photo--diff {
+  height: 220px;
+  margin-top: 26px;
+}
+
+.split--intro .lead { max-width: 560px; }
+
 @media (min-width: 960px) {
   .split {
     flex-direction: row;
@@ -608,6 +615,9 @@ button {
 
   .split-photo--about { height: 470px; }
   .split-photo--exp   { height: 430px; }
+  .split-photo--diff  { height: 320px; }
+
+  .split--intro { align-items: flex-end; }
 }
 
 /* Pontos com marcador hexagonal */
@@ -687,6 +697,18 @@ button {
 
 .copy-desktop { display: none; }
 
+/* Foto operacional de cada serviço: em cima no mobile, à direita no desktop */
+.ledger-photo {
+  order: -1;
+  flex: 0 0 100%;
+  width: 100%;
+  height: 180px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.ledger li { flex-wrap: wrap; }
+
 .ledger-cta {
   width: 100%;
   margin-top: 28px;
@@ -704,6 +726,16 @@ button {
 
   .ledger-icon { flex-basis: 64px; width: 64px; }
   .ledger-icon img { width: 52px; height: 58px; }
+
+  .ledger li { flex-wrap: nowrap; }
+
+  .ledger-photo {
+    order: 0;
+    flex: 0 0 200px;
+    width: 200px;
+    height: 132px;
+    margin-left: 8px;
+  }
 
   .ledger-body {
     flex-direction: row;
@@ -826,9 +858,38 @@ button {
 }
 
 .seg-featured {
+  position: relative;
+  min-height: 190px;
+  overflow: hidden;
   background: var(--navy);
   border-color: var(--navy);
 }
+
+.seg-featured > * { position: relative; }
+
+/* Foto de fundo com degradê navy para manter o texto legível */
+.seg-featured-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  flex: none;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  object-position: 45% center;
+  filter: saturate(0.85);
+}
+
+.seg-featured::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg, rgba(10, 29, 61, 0.97) 0%, rgba(10, 29, 61, 0.9) 55%, rgba(10, 29, 61, 0.7) 100%);
+}
+
+.seg-featured > img:not(.seg-featured-photo),
+.seg-featured .seg-body { z-index: 2; }
 
 .seg-featured h3 {
   font-size: 18px;
@@ -873,6 +934,11 @@ button {
     grid-column: span 2;
     justify-content: space-between;
     gap: 0;
+    min-height: 220px;
+  }
+
+  .seg-featured::after {
+    background: linear-gradient(90deg, rgba(10, 29, 61, 0.96) 0%, rgba(10, 29, 61, 0.82) 45%, rgba(10, 29, 61, 0.35) 100%);
   }
 
   .seg-featured h3 { font-size: 20px; letter-spacing: -0.2px; }
@@ -908,6 +974,14 @@ button {
 /* --------------------------------------------------------------------------
    Como funciona
    -------------------------------------------------------------------------- */
+
+.steps-photo {
+  width: 100%;
+  height: 210px;
+  margin-top: 26px;
+  border-radius: 4px;
+  object-fit: cover;
+}
 
 .steps {
   display: flex;
@@ -956,10 +1030,16 @@ button {
 }
 
 @media (min-width: 960px) {
+  .steps-photo {
+    height: 380px;
+    margin-top: 44px;
+    object-position: center 40%;
+  }
+
   .steps {
     flex-direction: row;
     gap: 0;
-    margin-top: 44px;
+    margin-top: 40px;
     border-top: 1px solid var(--line);
   }
 
@@ -999,6 +1079,27 @@ button {
 .cta > * {
   position: relative;
 }
+
+/* Foto de fundo com véu navy; o conteúdo fica acima */
+.cta-bg {
+  position: absolute !important;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+
+.cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg, rgba(10, 29, 61, 0.94) 0%, rgba(10, 29, 61, 0.86) 55%, rgba(10, 29, 61, 0.62) 100%);
+}
+
+.cta > *:not(.cta-bg) { z-index: 2; }
 
 .cta-hex {
   position: absolute !important;
