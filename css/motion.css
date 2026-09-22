@@ -1,0 +1,466 @@
+/* ==========================================================================
+   Grupo LFL Serviços — movimento e interação
+   Complementa styles.css (carregado depois dele). Controlado por js/motion.js.
+
+   Regras:
+   - Nenhum estado "escondido" existe sem `html.js-motion` + `[data-reveal]`,
+     ambos adicionados em runtime pelo JS. Sem JS, tudo aparece normalmente.
+   - Só transform/opacity são animados (mais translate/scale individuais,
+     que não conflitam com o transform do reveal).
+   - prefers-reduced-motion: tudo instantâneo, tudo visível.
+   ========================================================================== */
+
+:root {
+  --m-fast: 180ms;
+  --m-base: 260ms;
+  --m-reveal: 620ms;
+  --m-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --m-ease-io: cubic-bezier(0.4, 0, 0.2, 1);
+  --m-rise: 16px;
+  --header-h: 72px; /* atualizado pelo JS */
+}
+
+/* --------------------------------------------------------------------------
+   Keyframes
+   -------------------------------------------------------------------------- */
+
+@keyframes m-rise {
+  from { opacity: 0; transform: translate3d(0, var(--m-rise), 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes m-photo-in {
+  from { opacity: 0; scale: 1.04; }
+  to   { opacity: 1; scale: 1; }
+}
+
+@keyframes m-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes m-slide-up {
+  from { opacity: 0; translate: 0 12px; }
+  to   { opacity: 1; translate: 0 0; }
+}
+
+@keyframes m-wa-ring {
+  0%   { transform: scale(1);    opacity: 0.4; }
+  18%  { transform: scale(1.28); opacity: 0; }
+  100% { transform: scale(1.28); opacity: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   1. Reveal no scroll (IntersectionObserver em motion.js)
+   -------------------------------------------------------------------------- */
+
+html.js-motion [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, var(--m-rise), 0);
+  transition:
+    opacity var(--m-reveal) var(--m-ease) var(--reveal-delay, 0ms),
+    transform var(--m-reveal) var(--m-ease) var(--reveal-delay, 0ms);
+}
+
+html.js-motion [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Fotos entram com um leve scale-in em vez de subir. O `scale` inicial
+   fica só no estado não revelado, para não vencer o zoom de hover depois. */
+html.js-motion img[data-reveal],
+html.js-motion .seg-featured[data-reveal] {
+  transform: none;
+  transition:
+    opacity var(--m-reveal) var(--m-ease) var(--reveal-delay, 0ms),
+    scale 760ms var(--m-ease) var(--reveal-delay, 0ms);
+}
+
+html.js-motion img[data-reveal]:not(.is-visible),
+html.js-motion .seg-featured[data-reveal]:not(.is-visible) {
+  scale: 1.03;
+}
+
+/* --------------------------------------------------------------------------
+   2. Header
+   -------------------------------------------------------------------------- */
+
+html.js-motion .header {
+  transition:
+    padding var(--m-base) var(--m-ease-io),
+    box-shadow var(--m-base) var(--m-ease-io),
+    background-color var(--m-base) var(--m-ease-io);
+}
+
+html.js-motion .brand img {
+  transition: height var(--m-base) var(--m-ease-io);
+}
+
+.header.is-scrolled {
+  background-color: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 8px 24px -14px rgba(10, 29, 61, 0.28);
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .header.is-scrolled {
+    background-color: rgba(255, 255, 255, 0.8);
+    -webkit-backdrop-filter: saturate(160%) blur(12px);
+    backdrop-filter: saturate(160%) blur(12px);
+  }
+}
+
+/* A altura só encolhe quando o header é fixo/sticky (detectado pelo JS);
+   num header estático isso causaria salto de layout ao rolar. */
+html.has-fixed-header .header.is-scrolled {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+html.has-fixed-header .header.is-scrolled .brand img {
+  height: 38px;
+}
+
+@media (min-width: 960px) {
+  html.has-fixed-header .header.is-scrolled .brand img {
+    height: 44px;
+  }
+}
+
+/* Compensa o header fixo nas âncoras */
+html.has-fixed-header [id] {
+  scroll-margin-top: calc(var(--header-h) + 12px);
+}
+
+/* Links do nav: sublinhado que cresce da esquerda */
+.nav a {
+  position: relative;
+  transition: color var(--m-fast) var(--m-ease-io);
+}
+
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--m-base) var(--m-ease);
+}
+
+.nav a:hover::after,
+.nav a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* Menu mobile: hambúrguer vira X e o painel entra suave (main.js controla .is-open) */
+.menu-toggle span {
+  transition:
+    transform var(--m-base) var(--m-ease-io),
+    opacity var(--m-fast) var(--m-ease-io);
+  transform-origin: center;
+}
+
+.header.is-open .menu-toggle span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.header.is-open .menu-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0.4); }
+.header.is-open .menu-toggle span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+html.js-motion .header.is-open .nav-mobile {
+  animation: m-slide-up var(--m-base) var(--m-ease) both;
+}
+
+/* --------------------------------------------------------------------------
+   3. Hero: entrada orquestrada no load (JS marca data-hero + --hero-i)
+   -------------------------------------------------------------------------- */
+
+html.js-motion .hero [data-hero] {
+  animation: m-rise 640ms var(--m-ease) both;
+  animation-delay: calc(80ms + var(--hero-i, 0) * 100ms);
+}
+
+html.js-motion .hero [data-hero="media"] {
+  animation-name: m-photo-in;
+  animation-duration: 780ms;
+  animation-delay: 160ms;
+}
+
+/* Parallax sutil (translate individual, não conflita com scale/transform) */
+[data-parallax] {
+  translate: 0 var(--parallax-y, 0px);
+}
+
+/* --------------------------------------------------------------------------
+   4. Hover / focus
+   -------------------------------------------------------------------------- */
+
+.btn {
+  transition:
+    background-color var(--m-fast) var(--m-ease-io),
+    border-color var(--m-fast) var(--m-ease-io),
+    color var(--m-fast) var(--m-ease-io),
+    box-shadow var(--m-fast) var(--m-ease-io),
+    translate var(--m-fast) var(--m-ease-io);
+}
+
+.btn:hover,
+.btn:focus-visible {
+  translate: 0 -1px;
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  box-shadow: 0 10px 22px -12px rgba(13, 71, 161, 0.7);
+}
+
+.btn-outline:hover,
+.btn-outline:focus-visible {
+  box-shadow: 0 8px 18px -14px rgba(10, 29, 61, 0.5);
+}
+
+.btn:active {
+  translate: 0 0;
+  transition-duration: 60ms;
+}
+
+.btn:disabled,
+.btn[disabled] {
+  opacity: 0.6;
+  cursor: progress;
+  translate: 0 0;
+  box-shadow: none;
+}
+
+/* Fotos: leve zoom quando o item pai recebe hover */
+.ledger-photo,
+.split-photo,
+.steps-photo,
+.seg-featured-photo {
+  transition:
+    scale 700ms var(--m-ease),
+    box-shadow var(--m-base) var(--m-ease-io);
+}
+
+.ledger li:hover .ledger-photo,
+.split:hover .split-photo,
+.seg-featured:hover .seg-featured-photo {
+  scale: 1.025;
+}
+
+.ledger li:hover .ledger-photo,
+.split:hover .split-photo {
+  box-shadow: 0 16px 32px -20px rgba(10, 29, 61, 0.45);
+}
+
+/* Itens de lista */
+.ledger li {
+  transition: background-color var(--m-base) var(--m-ease-io);
+}
+
+.ledger h3 {
+  transition: color var(--m-fast) var(--m-ease-io);
+}
+
+.ledger li:hover h3 {
+  color: var(--blue);
+}
+
+.diff-grid li {
+  transition: background-color var(--m-base) var(--m-ease-io);
+}
+
+.diff-grid li:hover {
+  background-color: var(--bg-soft);
+}
+
+.diff-num {
+  display: inline-block;
+  transition: translate var(--m-base) var(--m-ease);
+}
+
+.diff-grid li:hover .diff-num {
+  translate: 3px 0;
+}
+
+/* Os .seg comuns são linhas de tabela; só o destaque (card) ganha elevação */
+.seg-featured {
+  transition:
+    translate var(--m-base) var(--m-ease),
+    border-color var(--m-base) var(--m-ease-io),
+    box-shadow var(--m-base) var(--m-ease-io);
+}
+
+.seg-featured:hover {
+  translate: 0 -2px;
+  border-color: var(--navy);
+  box-shadow: 0 14px 28px -20px rgba(10, 29, 61, 0.35);
+}
+
+.seg h3 { transition: color var(--m-base) var(--m-ease-io); }
+.seg:not(.seg-featured):hover h3 { color: var(--blue); }
+
+/* Links do rodapé e de contato */
+.footer-col a,
+.footer-legal a,
+.contact-info span a {
+  transition: color var(--m-fast) var(--m-ease-io);
+}
+
+/* --------------------------------------------------------------------------
+   WhatsApp flutuante: entra depois do load, pulsa a cada ~6s, hover
+   -------------------------------------------------------------------------- */
+
+.wa-float {
+  transition:
+    background-color var(--m-fast) var(--m-ease-io),
+    box-shadow var(--m-base) var(--m-ease-io),
+    translate var(--m-base) var(--m-ease);
+}
+
+.wa-float::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--whatsapp);
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+html.js-motion .wa-float {
+  animation: m-slide-up 480ms var(--m-ease) 900ms backwards;
+}
+
+html.js-motion .wa-float::before {
+  animation: m-wa-ring 6s ease-out 2.4s infinite;
+}
+
+.wa-float:hover,
+.wa-float:focus-visible {
+  translate: 0 -2px;
+  box-shadow: 0 18px 34px -12px rgba(10, 29, 61, 0.5);
+}
+
+.wa-float:hover::before,
+.wa-float:focus-visible::before {
+  animation-play-state: paused;
+  opacity: 0;
+}
+
+.wa-float img {
+  transition: transform var(--m-base) var(--m-ease);
+}
+
+.wa-float:hover img {
+  transform: rotate(-8deg) scale(1.08);
+}
+
+/* --------------------------------------------------------------------------
+   5. Formulário
+   -------------------------------------------------------------------------- */
+
+.field input,
+.field select,
+.field textarea {
+  transition:
+    border-color var(--m-fast) var(--m-ease-io),
+    box-shadow var(--m-fast) var(--m-ease-io),
+    background-color var(--m-fast) var(--m-ease-io);
+}
+
+.field input:hover:not(:focus),
+.field select:hover:not(:focus),
+.field textarea:hover:not(:focus) {
+  border-color: var(--line-btn);
+}
+
+.field label {
+  transition: color var(--m-fast) var(--m-ease-io);
+}
+
+.field:focus-within label {
+  color: var(--blue);
+}
+
+.form-feedback:not([hidden]) {
+  animation: m-slide-up 320ms var(--m-ease) both;
+}
+
+/* --------------------------------------------------------------------------
+   7. Reduced motion: instantâneo e visível
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html.js-motion [data-reveal],
+  html.js-motion img[data-reveal]:not(.is-visible),
+  html.js-motion .seg-featured[data-reveal]:not(.is-visible) {
+    opacity: 1;
+    transform: none;
+    scale: 1;
+    transition: none;
+  }
+
+  html.js-motion .hero [data-hero],
+  html.js-motion .hero [data-hero="media"],
+  html.js-motion .wa-float,
+  html.js-motion .wa-float::before,
+  html.js-motion .header.is-open .nav-mobile,
+  .form-feedback:not([hidden]) {
+    animation: none;
+  }
+
+  [data-parallax] {
+    translate: 0 0;
+  }
+
+  .btn,
+  .btn:hover,
+  .btn:focus-visible,
+  .seg-featured:hover,
+  .wa-float:hover,
+  .wa-float:focus-visible,
+  .diff-grid li:hover .diff-num {
+    translate: 0 0;
+  }
+
+  .ledger li:hover .ledger-photo,
+  .split:hover .split-photo,
+  .seg-featured:hover .seg-featured-photo {
+    scale: 1;
+  }
+
+  .wa-float:hover img {
+    transform: none;
+  }
+
+  .header,
+  .brand img,
+  .nav a,
+  .nav a::after,
+  .menu-toggle span,
+  .btn,
+  .ledger-photo,
+  .split-photo,
+  .steps-photo,
+  .seg-featured-photo,
+  .ledger li,
+  .ledger h3,
+  .diff-grid li,
+  .diff-num,
+  .seg,
+  .wa-float,
+  .wa-float img,
+  .field input,
+  .field select,
+  .field textarea,
+  .field label,
+  .footer-col a,
+  .footer-legal a,
+  .contact-info span a {
+    transition-duration: 0.01ms !important;
+  }
+}

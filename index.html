@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/motion.css">
 </head>
 <body>
 
@@ -58,13 +59,16 @@
             <a class="btn btn-primary" href="#contato">Solicitar uma proposta</a>
             <a class="btn btn-outline" href="#" data-whatsapp target="_blank" rel="noopener">Falar pelo WhatsApp</a>
           </div>
-          <ul class="hero-seals">
+        </div>
+        <figure class="hero-media">
+          <span class="hero-plate" aria-hidden="true"></span>
+          <img class="hero-photo" src="assets/img/foto-gestao-portaria.jpg" alt="Supervisora com tablet conversando com o porteiro na guarita de entrada de uma empresa" fetchpriority="high">
+          <ul class="hero-seals" aria-label="Compromissos">
             <li class="seal">Gestão próxima</li>
             <li class="seal">Equipes preparadas</li>
             <li class="seal">Continuidade operacional</li>
           </ul>
-        </div>
-        <img class="hero-photo" src="assets/img/foto-gestao-portaria.jpg" alt="Supervisora com tablet conversando com o porteiro na guarita de entrada de uma empresa" fetchpriority="high">
+        </figure>
       </div>
     </section>
 
@@ -79,11 +83,11 @@
     </section>
 
     <!-- Por que a LFL -->
-    <section class="section bg-white" id="sobre">
-      <div class="split">
+    <section class="section bg-white about" id="sobre">
+      <div class="split split--about">
         <div class="split-text">
           <p class="eyebrow"><span>Por que a LFL</span></p>
-          <h2 class="h2">Sua empresa deve focar no negócio. A LFL cuida da operação.</h2>
+          <h2 class="h2">Sua empresa deve focar no negócio. A&nbsp;LFL cuida da operação.</h2>
           <p class="lead">Gerenciar atividades operacionais internamente exige tempo, equipe e acompanhamento. A LFL assume a gestão desses serviços para ajudar a manter a operação organizada e contínua.</p>
           <ul class="points">
             <li>Menos sobrecarga operacional para a sua equipe interna</li>
@@ -92,16 +96,24 @@
             <li>Processos mais estruturados e previsíveis</li>
           </ul>
         </div>
-        <img class="split-photo split-photo--about" src="assets/img/foto-supervisao-equipe.jpg" alt="Supervisora com prancheta orientando dois profissionais no pátio de uma empresa" loading="lazy">
+        <figure class="split-media split-media--about">
+          <img class="split-photo split-photo--about" src="assets/img/foto-supervisao-equipe.jpg" alt="Supervisora com prancheta orientando dois profissionais no pátio de uma empresa" loading="lazy">
+        </figure>
       </div>
     </section>
 
     <!-- Serviços -->
-    <section class="section bg-soft" id="servicos">
-      <p class="eyebrow"><span>Serviços</span></p>
-      <h2 class="h2">Soluções para manter sua operação funcionando.</h2>
+    <section class="section section--arc bg-soft services" id="servicos">
+      <div class="section-head">
+        <div class="section-head-text">
+          <p class="eyebrow"><span>Serviços</span></p>
+          <h2 class="h2">Soluções para manter sua operação funcionando.</h2>
+        </div>
+        <a class="btn btn-primary ledger-cta" href="#contato">Encontrar a solução ideal</a>
+      </div>
       <ul class="ledger">
         <li>
+          <span class="ledger-num" aria-hidden="true">01</span>
           <div class="ledger-icon"><img src="assets/icons/hex-portaria.svg" alt="" width="52" height="58"></div>
           <div class="ledger-body">
             <h3>Portaria</h3>
@@ -111,6 +123,7 @@
           <img class="ledger-photo" src="assets/img/servico-portaria.jpg" alt="Porteiro registrando a entrada de um visitante no livro da recepção" loading="lazy">
         </li>
         <li>
+          <span class="ledger-num" aria-hidden="true">02</span>
           <div class="ledger-icon"><img src="assets/icons/hex-controle-acesso.svg" alt="" width="52" height="58"></div>
           <div class="ledger-body">
             <h3>Controle de acesso</h3>
@@ -120,6 +133,7 @@
           <img class="ledger-photo" src="assets/img/servico-controle-acesso.jpg" alt="Controladora de acesso conferindo documentos de um motorista de caminhão na cancela" loading="lazy">
         </li>
         <li>
+          <span class="ledger-num" aria-hidden="true">03</span>
           <div class="ledger-icon"><img src="assets/icons/hex-zeladoria.svg" alt="" width="52" height="58"></div>
           <div class="ledger-body">
             <h3>Zeladoria</h3>
@@ -129,6 +143,7 @@
           <img class="ledger-photo" src="assets/img/servico-zeladoria.jpg" alt="Zelador varrendo a área comum de um condomínio pela manhã" loading="lazy">
         </li>
         <li>
+          <span class="ledger-num" aria-hidden="true">04</span>
           <div class="ledger-icon"><img src="assets/icons/hex-manutencao.svg" alt="" width="52" height="58"></div>
           <div class="ledger-body">
             <h3>Manutenção predial</h3>
@@ -138,6 +153,7 @@
           <img class="ledger-photo" src="assets/img/servico-manutencao-predial.jpg" alt="Técnico de manutenção em uma escada trocando uma luminária em um corredor" loading="lazy">
         </li>
         <li>
+          <span class="ledger-num" aria-hidden="true">05</span>
           <div class="ledger-icon"><img src="assets/icons/hex-apoio.svg" alt="" width="52" height="58"></div>
           <div class="ledger-body">
             <h3>Serviços de apoio</h3>
@@ -147,54 +163,61 @@
           <img class="ledger-photo" src="assets/img/servico-apoio.jpg" alt="Auxiliar de apoio transportando materiais em um carrinho por um corredor de serviço" loading="lazy">
         </li>
       </ul>
-      <a class="btn btn-primary ledger-cta" href="#contato">Encontrar a solução ideal</a>
     </section>
 
     <!-- Diferenciais -->
-    <section class="section bg-white" id="diferenciais">
-      <div class="split split--intro">
-        <div class="split-text">
+    <section class="section bg-white diff" id="diferenciais">
+      <div class="diff-layout">
+        <div class="diff-intro">
           <p class="eyebrow"><span>Diferenciais</span></p>
           <h2 class="h2">Mais do que terceirização. Gestão presente.</h2>
-          <p class="lead">Quem gerencia a operação está na operação: visitas de rotina, checklist em mãos e conversa direta com quem contrata.</p>
+          <p class="lead">Acompanhamento da operação no dia a dia e comunicação direta com quem contrata.</p>
+          <figure class="split-media split-media--diff">
+            <img class="split-photo split-photo--diff" src="assets/img/foto-gestao-cliente.jpg" alt="Gestor revisando um checklist com a contratante em frente à portaria" loading="lazy">
+          </figure>
         </div>
-        <img class="split-photo split-photo--diff" src="assets/img/foto-gestao-cliente.jpg" alt="Gestor revisando um checklist com a contratante em frente à portaria" loading="lazy">
+        <ol class="diff-grid">
+          <li><span class="diff-num" aria-hidden="true">01</span><h3>Gestão próxima</h3><p>Acompanhamento da operação e comunicação constante com o cliente.</p></li>
+          <li><span class="diff-num" aria-hidden="true">02</span><h3>Continuidade operacional</h3><p>Foco em manter os serviços essenciais organizados e funcionando.</p></li>
+          <li><span class="diff-num" aria-hidden="true">03</span><h3>Equipe preparada</h3><p>Seleção, orientação e acompanhamento dos profissionais envolvidos.</p></li>
+          <li><span class="diff-num" aria-hidden="true">04</span><h3>Cuidado com as pessoas</h3><p>Valorização da equipe como parte direta da qualidade da entrega.</p></li>
+          <li><span class="diff-num" aria-hidden="true">05</span><h3>Atendimento personalizado</h3><p>Cada operação recebe uma solução adequada à realidade do cliente.</p></li>
+          <li><span class="diff-num" aria-hidden="true">06</span><h3>Compromisso com qualidade</h3><p>Organização e responsabilidade na execução, todos os dias.</p></li>
+        </ol>
       </div>
-      <ol class="diff-grid">
-        <li><span class="diff-num">01</span><h3>Gestão próxima</h3><p>Acompanhamento da operação e comunicação constante com o cliente.</p></li>
-        <li><span class="diff-num">02</span><h3>Continuidade operacional</h3><p>Foco em manter os serviços essenciais organizados e funcionando.</p></li>
-        <li><span class="diff-num">03</span><h3>Equipe preparada</h3><p>Seleção, orientação e acompanhamento dos profissionais envolvidos.</p></li>
-        <li><span class="diff-num">04</span><h3>Cuidado com as pessoas</h3><p>Valorização da equipe como parte direta da qualidade da entrega.</p></li>
-        <li><span class="diff-num">05</span><h3>Atendimento personalizado</h3><p>Cada operação recebe uma solução adequada à realidade do cliente.</p></li>
-        <li><span class="diff-num">06</span><h3>Compromisso com qualidade</h3><p>Organização e responsabilidade na execução, todos os dias.</p></li>
-      </ol>
     </section>
 
     <!-- Segmentos -->
-    <section class="section bg-soft" id="segmentos">
-      <p class="eyebrow"><span>Segmentos atendidos</span></p>
-      <h2 class="h2">Soluções para diferentes tipos de operação.</h2>
-      <ul class="seg-grid">
-        <li class="seg seg-featured">
+    <section class="section section--arc bg-soft segments" id="segmentos">
+      <div class="section-head">
+        <div class="section-head-text">
+          <p class="eyebrow"><span>Segmentos atendidos</span></p>
+          <h2 class="h2">Soluções para diferentes tipos de operação.</h2>
+        </div>
+      </div>
+      <div class="seg-layout">
+        <div class="seg seg-featured">
           <img class="seg-featured-photo" src="assets/img/foto-recepcao-hospital.jpg" alt="" loading="lazy">
           <img src="assets/icons/seg-hospitais.svg" alt="" width="26" height="26">
           <div class="seg-body">
             <h3>Hospitais e clínicas</h3>
             <p>Experiência em ambientes que exigem continuidade, responsabilidade e atenção constante.</p>
           </div>
-        </li>
-        <li class="seg"><img src="assets/icons/seg-condominios.svg" alt="" width="26" height="26"><div class="seg-body"><h3>Condomínios</h3></div></li>
-        <li class="seg"><img src="assets/icons/seg-empresas.svg" alt="" width="26" height="26"><div class="seg-body"><h3>Empresas</h3></div></li>
-        <li class="seg"><img src="assets/icons/seg-industrias.svg" alt="" width="26" height="26"><div class="seg-body"><h3>Indústrias</h3></div></li>
-        <li class="seg"><img src="assets/icons/seg-logistica.svg" alt="" width="26" height="26"><div class="seg-body"><h3>Centros logísticos</h3></div></li>
-        <li class="seg"><img src="assets/icons/seg-comercio.svg" alt="" width="26" height="26"><div class="seg-body"><h3>Estabelecimentos comerciais</h3></div></li>
-        <li class="seg"><img src="assets/icons/seg-instituicoes.svg" alt="" width="26" height="26"><div class="seg-body"><h3>Instituições</h3></div></li>
-      </ul>
+        </div>
+        <ul class="seg-grid">
+          <li class="seg"><img src="assets/icons/seg-condominios.svg" alt="" width="26" height="26"><div class="seg-body"><h3>Condomínios</h3></div></li>
+          <li class="seg"><img src="assets/icons/seg-empresas.svg" alt="" width="26" height="26"><div class="seg-body"><h3>Empresas</h3></div></li>
+          <li class="seg"><img src="assets/icons/seg-industrias.svg" alt="" width="26" height="26"><div class="seg-body"><h3>Indústrias</h3></div></li>
+          <li class="seg"><img src="assets/icons/seg-logistica.svg" alt="" width="26" height="26"><div class="seg-body"><h3>Centros logísticos</h3></div></li>
+          <li class="seg"><img src="assets/icons/seg-comercio.svg" alt="" width="26" height="26"><div class="seg-body"><h3>Estabelecimentos comerciais</h3></div></li>
+          <li class="seg"><img src="assets/icons/seg-instituicoes.svg" alt="" width="26" height="26"><div class="seg-body"><h3>Instituições</h3></div></li>
+        </ul>
+      </div>
     </section>
 
     <!-- Experiência -->
-    <section class="section bg-navy on-dark">
-      <div class="split">
+    <section class="section bg-navy on-dark exp">
+      <div class="split split--exp">
         <div class="split-text">
           <p class="eyebrow"><span>Experiência</span></p>
           <h2 class="h2">Experiência em ambientes que não podem parar.</h2>
@@ -207,15 +230,23 @@
             <li>Acompanhamento</li>
           </ul>
         </div>
-        <img class="split-photo split-photo--exp" src="assets/img/foto-apoio-hospitalar.jpg" alt="Supervisora orientando dois profissionais uniformizados em um corredor hospitalar" loading="lazy">
+        <figure class="split-media split-media--exp">
+          <img class="split-photo split-photo--exp" src="assets/img/foto-apoio-hospitalar.jpg" alt="Supervisora orientando dois profissionais uniformizados em um corredor hospitalar" loading="lazy">
+        </figure>
       </div>
     </section>
 
     <!-- Como funciona -->
-    <section class="section bg-white">
-      <p class="eyebrow"><span>Como funciona</span></p>
-      <h2 class="h2">Uma operação estruturada começa com entendimento.</h2>
-      <img class="steps-photo" src="assets/img/foto-visita-tecnica.jpg" alt="Visita técnica: gestora com tablet e cliente percorrendo o pátio de um centro logístico" loading="lazy">
+    <section class="section bg-white how">
+      <div class="section-head">
+        <div class="section-head-text">
+          <p class="eyebrow"><span>Como funciona</span></p>
+          <h2 class="h2">Uma operação estruturada começa com entendimento.</h2>
+        </div>
+      </div>
+      <figure class="how-media">
+        <img class="steps-photo" src="assets/img/foto-visita-tecnica.jpg" alt="Visita técnica: gestora com tablet e cliente percorrendo o pátio de um centro logístico" loading="lazy">
+      </figure>
       <ol class="steps">
         <li class="step"><span class="step-badge">01</span><div class="step-body"><h3>Entendimento da necessidade</h3><p>Levantamento da operação, da rotina e dos objetivos do cliente.</p></div></li>
         <li class="step"><span class="step-badge">02</span><div class="step-body"><h3>Definição da solução</h3><p>Estruturação do escopo e do modelo de atendimento adequado.</p></div></li>
@@ -226,20 +257,24 @@
     </section>
 
     <!-- CTA -->
-    <section class="section bg-navy on-dark cta">
-      <img class="cta-bg" src="assets/img/foto-guarita-entardecer.jpg" alt="" aria-hidden="true" loading="lazy">
-      <img class="cta-hex" src="assets/icons/hex-decorativo.svg" alt="" aria-hidden="true">
-      <p class="eyebrow"><span>Vamos conversar</span></p>
-      <h2 class="h2 cta-title">Sua operação precisa de mais organização e continuidade?</h2>
-      <p class="lead cta-lead">Fale com a Grupo LFL Serviços e descubra como podemos apoiar a rotina da sua empresa.</p>
-      <div class="ctas">
-        <a class="btn btn-primary" href="#contato">Solicitar uma proposta</a>
-        <a class="btn btn-outline" href="#" data-whatsapp target="_blank" rel="noopener">Falar pelo WhatsApp</a>
+    <section class="cta-wrap" aria-labelledby="cta-title">
+      <div class="cta on-dark">
+        <img class="cta-bg" src="assets/img/foto-guarita-entardecer.jpg" alt="" aria-hidden="true" loading="lazy">
+        <span class="cta-arc" aria-hidden="true"></span>
+        <div class="cta-content">
+          <p class="eyebrow"><span>Vamos conversar</span></p>
+          <h2 class="h2 cta-title" id="cta-title">Sua operação precisa de mais organização e continuidade?</h2>
+          <p class="lead cta-lead">Fale com a Grupo LFL Serviços e descubra como podemos apoiar a rotina da sua empresa.</p>
+          <div class="ctas">
+            <a class="btn btn-primary" href="#contato">Solicitar uma proposta</a>
+            <a class="btn btn-outline" href="#" data-whatsapp target="_blank" rel="noopener">Falar pelo WhatsApp</a>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- Contato -->
-    <section class="section bg-soft" id="contato">
+    <section class="section bg-soft contact-section" id="contato">
       <div class="contact">
         <div class="contact-text">
           <p class="eyebrow"><span>Contato</span></p>
@@ -313,6 +348,7 @@
 
   <!-- Footer -->
   <footer class="footer">
+    <span class="footer-arc" aria-hidden="true"></span>
     <div class="footer-cols">
       <div class="footer-brand">
         <a class="lockup-dark" href="#inicio" aria-label="Grupo LFL Serviços — início">
@@ -367,5 +403,6 @@
   </a>
 
   <script src="js/main.js"></script>
+  <script src="js/motion.js"></script>
 </body>
 </html>
