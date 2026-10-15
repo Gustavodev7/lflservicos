@@ -4,12 +4,12 @@
 
   // Número no formato internacional, só dígitos (55 + DDD + número).
   // TODO: substituir pelo número comercial da LFL.
-  var WHATSAPP_NUMBER = "5511900000000";
+  var WHATSAPP_NUMBER = "5511972915400";
   var WHATSAPP_MESSAGE =
     "Olá! Vim pelo site da Grupo LFL Serviços e gostaria de saber mais sobre os serviços.";
 
   var SUCCESS_MESSAGE =
-    "Obrigado pelo contato. Nossa equipe falará com você em breve.";
+    "Obrigado pelo contato. Nossa equipe retornará pelo WhatsApp ou e-mail informado.";
   var ERROR_MESSAGE =
     "Preencha os campos obrigatórios para enviar a solicitação.";
 
@@ -64,13 +64,44 @@
 
   /* ------------------------------------------------------------------
      Formulário de contato
-     Sem backend por enquanto: valida e exibe a mensagem de confirmação
-     prevista no Figma. Integrar com e-mail/CRM em `submitLead`.
+     Envia o lead para o Web App do Google Apps Script (apps-script/Code.gs),
+     que grava uma linha na planilha de leads.
      ------------------------------------------------------------------ */
+  // URL do Web App (termina em /exec). Ver instruções em apps-script/Code.gs.
+  var LEADS_ENDPOINT =
+    "https://script.google.com/macros/s/AKfycbzZcwBTur1F4r0jB-legNjY5r7UgqlhatcmMIaSl6QZ60Xp2XhOp8ZCt88nGG5XnbQaNA/exec";
+  var pageLoadedAt = Date.now();
+
   function submitLead(data) {
-    // Ponto de integração: enviar `data` para o serviço escolhido.
-    // Ex.: return fetch("/api/contato", { method: "POST", body: JSON.stringify(data) });
-    return Promise.resolve(data);
+    if (!LEADS_ENDPOINT) {
+      return Promise.reject(new Error("LEADS_ENDPOINT não configurado"));
+    }
+
+    // Corpo urlencoded = requisição "simples", sem preflight de CORS.
+    var body = new URLSearchParams(data);
+    body.set("t", String(Date.now() - pageLoadedAt));
+
+    var controller = new AbortController();
+    var timeout = setTimeout(function () {
+      controller.abort();
+    }, 15000);
+
+    return fetch(LEADS_ENDPOINT, {
+      method: "POST",
+      body: body,
+      credentials: "omit",
+      referrerPolicy: "no-referrer",
+      signal: controller.signal,
+    })
+      .then(function (response) {
+        clearTimeout(timeout);
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        return response.json();
+      })
+      .then(function (result) {
+        if (!result || !result.ok) throw new Error("Lead recusado");
+        return result;
+      });
   }
 
   function setupContactForm() {

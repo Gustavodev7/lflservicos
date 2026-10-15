@@ -1,0 +1,40 @@
+# Grupo LFL Serviços — landing estática (cPanel / LiteSpeed atrás do Cloudflare)
+DirectoryIndex index.html
+
+Options -Indexes
+
+# Nada de código-fonte, docs ou dotfiles expostos (.well-known/ continua acessível)
+RedirectMatch 404 ^/(apps-script|\.git)(/|$)
+RedirectMatch 404 \.(md|gs|zip)$
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # www -> domínio principal (antes feito pelo WordPress).
+  # HTTP -> HTTPS fica no Cloudflare ("Always Use HTTPS"), para não gerar loop.
+  RewriteCond %{HTTP_HOST} ^www\.grupolflservicos\.com\.br$ [NC]
+  RewriteRule ^ https://grupolflservicos.com.br%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  # connect-src: o Web App do Apps Script redireciona /exec para script.googleusercontent.com
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'"
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  # CSS/JS versionados com ?v= nos links do HTML: troque o número a cada deploy
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType text/javascript "access plus 7 days"
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+</IfModule>
